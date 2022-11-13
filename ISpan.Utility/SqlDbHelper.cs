@@ -16,7 +16,15 @@ namespace ISpan.Utility
 		}
 		public void ExecuteNonQuery(string sql, SqlParameter[] parameters)
 		{
+			using (var conn = new SqlConnection(connString))
+			{
+				SqlCommand command = new SqlCommand(sql, conn);
+				conn.Open();
 
+				command.Parameters.AddRange(parameters);
+				command.ExecuteNonQuery();
+			}
 		}
+	
 	}
 }
